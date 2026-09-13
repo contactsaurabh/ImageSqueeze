@@ -2,7 +2,7 @@
 
 **ImageSqueeze** is a free, private, browser-based image compressor. Drop in a JPG, PNG, or WebP photo, adjust the quality, and download a smaller file — instantly, with no upload, no signup, no watermark, and no server involved. Great for shrinking photos for a website, email attachment, WhatsApp, resume upload, or any form with a file-size limit.
 
-🔗 **Live demo:** _add your hosted URL here once deployed (e.g. Hostinger)_
+🔗 **Live demo:** https://image.trucirkl.com/
 
 ## Features
 - Compress **JPG/JPEG**, **PNG**, and **WebP** images
@@ -30,7 +30,7 @@
 ## Deploying / self-hosting
 This is a static site — deploy it anywhere that serves static files (Hostinger, Netlify, Vercel, GitHub Pages, S3, etc.):
 1. Upload `index.html`, `robots.txt`, and `sitemap.xml` to your web host's public/root folder.
-2. Replace `REPLACE-WITH-YOUR-DOMAIN.com` in `index.html`, `robots.txt`, and `sitemap.xml` with your real domain.
+2. Domain is already set to `image.trucirkl.com` in `index.html`, `robots.txt`, and `sitemap.xml`.
 3. (Optional) Add an `og-image.png` (1200×630) at the site root for nicer social-media link previews.
 
 ## Files
