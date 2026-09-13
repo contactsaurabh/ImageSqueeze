@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ImageSqueeze – Free Online Image Compressor (No Upload, 100% Private)</title>
+<meta name="description" content="Compress JPG, PNG, and WebP images online for free without losing quality. ImageSqueeze runs entirely in your browser — no upload, no signup, no watermark. Reduce photo file size instantly for web, email, or WhatsApp.">
+<meta name="keywords" content="image compressor, compress image online, reduce image size, photo compressor, JPG compressor, PNG compressor, WebP compressor, resize image online, shrink photo size, free image compression tool, compress image without losing quality, online photo optimizer, reduce photo size for upload">
+<meta name="author" content="Saurabh">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://REPLACE-WITH-YOUR-DOMAIN.com/">
+
+<!-- Open Graph / Facebook / WhatsApp -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="ImageSqueeze – Free Online Image Compressor">
+<meta property="og:description" content="Compress JPG, PNG, and WebP images online for free without losing quality. 100% private — nothing is ever uploaded to a server.">
+<meta property="og:url" content="https://REPLACE-WITH-YOUR-DOMAIN.com/">
+<meta property="og:site_name" content="ImageSqueeze">
+<meta property="og:image" content="https://REPLACE-WITH-YOUR-DOMAIN.com/og-image.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ImageSqueeze – Free Online Image Compressor">
+<meta name="twitter:description" content="Compress JPG, PNG, and WebP images online for free without losing quality. 100% private, no upload needed.">
+<meta name="twitter:image" content="https://REPLACE-WITH-YOUR-DOMAIN.com/og-image.png">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%96%BC%EF%B8%8F%3C/text%3E%3C/svg%3E">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ImageSqueeze",
+  "url": "https://REPLACE-WITH-YOUR-DOMAIN.com/",
+  "description": "Free online tool to compress JPG, PNG, and WebP images without losing quality. Runs entirely in the browser — no upload, no signup, no watermark.",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Any (Web Browser)",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Compress JPG, PNG, and WebP images",
+    "Adjustable quality slider",
+    "Resize by maximum dimension",
+    "Live before/after file size comparison",
+    "100% client-side processing, no file uploads",
+    "Free, no signup, no watermark"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I compress an image online for free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Open ImageSqueeze, drag and drop your JPG, PNG, or WebP image (or click to choose one), adjust the quality slider or pick a preset, then click Download compressed image. Everything happens in your browser instantly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does ImageSqueeze upload my photos to a server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. ImageSqueeze compresses images entirely inside your browser using the HTML canvas. Your photos never leave your device, which makes it safe for private or sensitive images."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which image format compresses best: JPG, PNG, or WebP?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For photographs, JPG and WebP give the smallest file sizes with barely noticeable quality loss. PNG is lossless and best reserved for screenshots, logos, or graphics with sharp edges and text, since it does not shrink photos as effectively."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is ImageSqueeze really free with no signup?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. ImageSqueeze is completely free, requires no account or signup, and adds no watermark to your images."
+      }
+    }
+  ]
+}
+</script>
+<style>
+  :root{
+    --bg:#0f1220;
+    --panel:#171b2e;
+    --panel-2:#1f2440;
+    --border:#2b3155;
+    --text:#eef0fb;
+    --muted:#9aa1c4;
+    --accent:#6c8cff;
+    --accent-2:#4fd1a5;
+    --danger:#ff6b6b;
+    --radius:16px;
+    --shadow:0 10px 30px rgba(0,0,0,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:radial-gradient(1200px 600px at 10% -10%, #232a52 0%, transparent 60%),
+               radial-gradient(1000px 500px at 100% 0%, #1a3a3a 0%, transparent 55%),
+               var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:32px 16px 80px;
+  }
+  header{
+    text-align:center;
+    max-width:640px;
+    margin-bottom:28px;
+  }
+  header h1{
+    font-size:32px;
+    margin:0 0 8px;
+    letter-spacing:-0.02em;
+  }
+  header h1 span{color:var(--accent);}
+  header p{
+    color:var(--muted);
+    font-size:15px;
+    margin:0;
+    line-height:1.5;
+  }
+  .app{
+    width:100%;
+    max-width:920px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  .dropzone{
+    background:var(--panel);
+    border:2px dashed var(--border);
+    border-radius:var(--radius);
+    padding:48px 24px;
+    text-align:center;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+  }
+  .dropzone.dragover{
+    border-color:var(--accent);
+    background:var(--panel-2);
+    transform:scale(1.01);
+  }
+  .dropzone .icon{
+    font-size:40px;
+    margin-bottom:12px;
+  }
+  .dropzone h3{
+    margin:0 0 6px;
+    font-size:18px;
+    font-weight:600;
+  }
+  .dropzone p{
+    margin:0;
+    color:var(--muted);
+    font-size:14px;
+  }
+  input[type=file]{display:none;}
+
+  .workspace{
+    display:none;
+    flex-direction:column;
+    gap:20px;
+  }
+  .workspace.active{display:flex;}
+
+  .controls{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:20px 24px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .row{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .row.between{justify-content:space-between;}
+  .filename{
+    font-size:14px;
+    color:var(--muted);
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    max-width:340px;
+  }
+  .btn{
+    appearance:none;
+    border:none;
+    border-radius:10px;
+    padding:10px 18px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:transform .08s ease, opacity .15s ease;
+    font-family:inherit;
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{background:var(--accent);color:#0b0e1f;}
+  .btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border);}
+  .btn-secondary:hover{border-color:var(--accent);}
+  .btn:disabled{opacity:0.4;cursor:not-allowed;}
+
+  .slider-block{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .slider-label{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    color:var(--muted);
+  }
+  .slider-label b{color:var(--text);font-weight:600;}
+  input[type=range]{
+    -webkit-appearance:none;
+    width:100%;
+    height:6px;
+    border-radius:3px;
+    background:linear-gradient(90deg, var(--accent) 0%, var(--accent) var(--pct,70%), var(--panel-2) var(--pct,70%), var(--panel-2) 100%);
+    outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:18px;height:18px;
+    border-radius:50%;
+    background:#fff;
+    border:3px solid var(--accent);
+    cursor:pointer;
+    margin-top:0;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:18px;height:18px;
+    border-radius:50%;
+    background:#fff;
+    border:3px solid var(--accent);
+    cursor:pointer;
+  }
+
+  select{
+    background:var(--panel-2);
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:8px 12px;
+    font-size:13px;
+    font-family:inherit;
+  }
+
+  .presets{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .preset-btn{
+    background:var(--panel-2);
+    color:var(--muted);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:6px 14px;
+    font-size:13px;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .preset-btn.active, .preset-btn:hover{
+    color:var(--text);
+    border-color:var(--accent);
+    background:var(--panel);
+  }
+
+  .compare{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+  @media (max-width:720px){
+    .compare{grid-template-columns:1fr;}
+  }
+  .pane{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+  .pane .pane-header{
+    padding:14px 18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid var(--border);
+  }
+  .pane .pane-header .tag{
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .pane .pane-header .size{
+    font-size:14px;
+    font-weight:700;
+  }
+  .pane.after .pane-header .size{color:var(--accent-2);}
+  .img-holder{
+    background:
+      linear-gradient(45deg, #11142333 25%, transparent 25%),
+      linear-gradient(-45deg, #11142333 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #11142333 75%),
+      linear-gradient(-45deg, transparent 75%, #11142333 75%);
+    background-size:20px 20px;
+    background-position:0 0, 0 10px, 10px -10px, -10px 0px;
+    min-height:220px;
+    max-height:420px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .img-holder img{
+    max-width:100%;
+    max-height:420px;
+    display:block;
+  }
+
+  .summary{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:20px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .summary .stat{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+  }
+  .summary .stat .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .summary .stat .value{font-size:22px;font-weight:700;}
+  .summary .stat .value.good{color:var(--accent-2);}
+
+  .hint{
+    font-size:12px;
+    color:var(--muted);
+    text-align:center;
+    margin-top:4px;
+  }
+
+  footer{
+    margin-top:40px;
+    color:var(--muted);
+    font-size:12px;
+    text-align:center;
+  }
+
+  .badge{
+    display:inline-block;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:2px 10px;
+    font-size:11px;
+    color:var(--muted);
+    margin-left:8px;
+  }
+
+  .spinner{
+    display:none;
+    width:16px;height:16px;
+    border:2px solid rgba(255,255,255,0.2);
+    border-top-color:#0b0e1f;
+    border-radius:50%;
+    animation:spin .7s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Image<span>Squeeze</span></h1>
+  <p>Shrink your photos to a smaller file size while keeping them looking sharp — right in your browser. Nothing is uploaded anywhere; your images never leave your device.</p>
+</header>
+
+<div class="app">
+
+  <div class="dropzone" id="dropzone">
+    <div class="icon">🖼️</div>
+    <h3>Drop an image here, or click to choose one</h3>
+    <p>Supports JPG, PNG, and WebP</p>
+    <input type="file" id="fileInput" accept="image/png, image/jpeg, image/webp">
+  </div>
+
+  <div class="workspace" id="workspace">
+
+    <div class="controls">
+      <div class="row between">
+        <div class="filename" id="filename">image.jpg</div>
+        <button class="btn btn-secondary" id="changeImageBtn">Choose a different image</button>
+      </div>
+
+      <div class="slider-block" id="qualityBlock">
+        <div class="slider-label">
+          <span id="qualityLabelText">Quality (higher = clearer, larger file)</span>
+          <b id="qualityValue">80%</b>
+        </div>
+        <input type="range" id="qualitySlider" min="10" max="100" value="80" step="1">
+        <div class="presets">
+          <button class="preset-btn" data-quality="95">Best quality</button>
+          <button class="preset-btn active" data-quality="80">Balanced</button>
+          <button class="preset-btn" data-quality="60">Smaller file</button>
+          <button class="preset-btn" data-quality="35">Tiny file</button>
+        </div>
+        <p class="hint" id="pngNotice" style="display:none;margin:0;text-align:left;">
+          PNG is lossless — quality doesn't apply, and file size won't shrink much for photos. Switch to JPEG or WebP to compress this kind of image.
+        </p>
+      </div>
+
+      <div class="row between">
+        <div class="row" style="gap:10px;">
+          <span style="font-size:13px;color:var(--muted);">Output format</span>
+          <select id="formatSelect">
+            <option value="image/jpeg">JPEG (smallest, best for photos)</option>
+            <option value="image/webp">WebP (great compression)</option>
+            <option value="image/png">PNG (lossless, larger)</option>
+          </select>
+        </div>
+        <div class="row" style="gap:10px;">
+          <span style="font-size:13px;color:var(--muted);">Max dimension</span>
+          <select id="maxDimSelect">
+            <option value="0">Keep original size</option>
+            <option value="2560">2560px</option>
+            <option value="1920" selected>1920px (Full HD)</option>
+            <option value="1280">1280px</option>
+            <option value="800">800px</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="compare">
+      <div class="pane before">
+        <div class="pane-header">
+          <span class="tag">Original</span>
+          <span class="size" id="originalSize">—</span>
+        </div>
+        <div class="img-holder"><img id="originalImg" alt="Original image"></div>
+      </div>
+      <div class="pane after">
+        <div class="pane-header">
+          <span class="tag">Compressed</span>
+          <span class="size" id="compressedSize">—</span>
+        </div>
+        <div class="img-holder"><img id="compressedImg" alt="Compressed image"></div>
+      </div>
+    </div>
+
+    <div class="summary">
+      <div class="stat">
+        <span class="label">Size reduction</span>
+        <span class="value good" id="reductionStat">—</span>
+      </div>
+      <div class="stat">
+        <span class="label">Original dimensions</span>
+        <span class="value" id="origDims" style="font-size:16px;">—</span>
+      </div>
+      <div class="stat">
+        <span class="label">Output dimensions</span>
+        <span class="value" id="outDims" style="font-size:16px;">—</span>
+      </div>
+      <button class="btn btn-primary" id="downloadBtn">
+        <span id="downloadLabel">Download compressed image</span>
+      </button>
+    </div>
+
+    <p class="hint" id="growWarning" style="display:none;color:var(--danger);">
+      ⚠️ The compressed file is bigger than the original. Try JPEG/WebP format, a lower quality, or a smaller max dimension.
+    </p>
+    <p class="hint" id="defaultHint">Tip: JPEG at 70–85% quality usually looks nearly identical to the original but can be 60–90% smaller.</p>
+  </div>
+
+</div>
+
+<section class="seo-content" style="max-width:920px;width:100%;margin-top:56px;color:var(--muted);font-size:14px;line-height:1.7;">
+  <h2 style="color:var(--text);font-size:22px;margin-bottom:6px;">Free Online Image Compressor — No Upload, No Signup</h2>
+  <p><strong>ImageSqueeze</strong> is a free online image compressor that shrinks the file size of your JPG, PNG, and WebP photos while keeping them looking sharp. Unlike most "compress image online" tools, ImageSqueeze does not upload your pictures to any server — everything runs locally in your web browser, so your photos stay completely private. It's perfect for reducing photo size for a website, email attachment, WhatsApp, resume, job application, or online form upload limit.</p>
+
+  <h3 style="color:var(--text);font-size:17px;margin:20px 0 6px;">Why use ImageSqueeze to reduce image size?</h3>
+  <ul style="padding-left:20px;margin:0;">
+    <li>100% free image compressor — no signup, no watermark, no limits</li>
+    <li>Private and secure: images never leave your device or get uploaded anywhere</li>
+    <li>Works for JPG/JPEG compression, PNG compression, and WebP compression</li>
+    <li>Adjustable quality slider and one-click presets to shrink photo size instantly</li>
+    <li>Resize large photos by maximum dimension to cut file size even further</li>
+    <li>Live before/after preview so you can compare quality and size before downloading</li>
+    <li>Works on any device — phone, tablet, or desktop — no app install required</li>
+  </ul>
+
+  <h3 style="color:var(--text);font-size:17px;margin:20px 0 6px;">Frequently asked questions</h3>
+  <p><strong>How do I compress an image online for free?</strong><br>
+  Drag and drop your image into ImageSqueeze, adjust the quality slider or choose a preset like "Smaller file" or "Tiny file," then click Download compressed image. It takes seconds.</p>
+  <p><strong>Is it safe to compress private or sensitive photos here?</strong><br>
+  Yes. ImageSqueeze processes every image locally in your browser using HTML5 canvas — nothing is ever uploaded to a server, so your files stay fully private.</p>
+  <p><strong>Which format should I choose — JPG, PNG, or WebP?</strong><br>
+  Use JPG or WebP to compress photographs and get the biggest file size reduction. Use PNG only for screenshots, logos, or graphics with text and sharp edges, since PNG is lossless and won't shrink photos much.</p>
+</section>
+
+<footer>
+  ImageSqueeze — 100% local, private, and free. No files are ever uploaded to a server.
+</footer>
+
+<script>
+(function(){
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+  const workspace = document.getElementById('workspace');
+  const filenameEl = document.getElementById('filename');
+  const changeImageBtn = document.getElementById('changeImageBtn');
+
+  const qualitySlider = document.getElementById('qualitySlider');
+  const qualityValue = document.getElementById('qualityValue');
+  const presetBtns = document.querySelectorAll('.preset-btn');
+  const formatSelect = document.getElementById('formatSelect');
+  const maxDimSelect = document.getElementById('maxDimSelect');
+
+  const pngNotice = document.getElementById('pngNotice');
+  const growWarning = document.getElementById('growWarning');
+  const defaultHint = document.getElementById('defaultHint');
+
+  const originalImg = document.getElementById('originalImg');
+  const compressedImg = document.getElementById('compressedImg');
+  const originalSizeEl = document.getElementById('originalSize');
+  const compressedSizeEl = document.getElementById('compressedSize');
+  const reductionStat = document.getElementById('reductionStat');
+  const origDimsEl = document.getElementById('origDims');
+  const outDimsEl = document.getElementById('outDims');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const downloadLabel = document.getElementById('downloadLabel');
+
+  let originalFile = null;
+  let originalBytes = 0;
+  let originalWidth = 0;
+  let originalHeight = 0;
+  let sourceImageEl = null;
+  let currentBlob = null;
+  let currentBlobUrl = null;
+  let debounceTimer = null;
+
+  function formatBytes(bytes){
+    if(bytes < 1024) return bytes + ' B';
+    if(bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB';
+    return (bytes/1024/1024).toFixed(2) + ' MB';
+  }
+
+  function pickDefaultFormatFor(file){
+    if(file.type === 'image/png') return 'image/png';
+    if(file.type === 'image/webp') return 'image/webp';
+    return 'image/jpeg';
+  }
+
+  function loadFile(file){
+    if(!file || !file.type.startsWith('image/')){
+      alert('Please choose an image file (JPG, PNG, or WebP).');
+      return;
+    }
+    originalFile = file;
+    originalBytes = file.size;
+    filenameEl.textContent = file.name;
+    filenameEl.title = file.name;
+
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = function(){
+      sourceImageEl = img;
+      originalWidth = img.naturalWidth;
+      originalHeight = img.naturalHeight;
+
+      originalImg.src = url;
+      originalSizeEl.textContent = formatBytes(originalBytes);
+      origDimsEl.textContent = originalWidth + ' × ' + originalHeight;
+
+      formatSelect.value = pickDefaultFormatFor(file);
+
+      workspace.classList.add('active');
+      dropzone.style.display = 'none';
+
+      compress();
+    };
+    img.onerror = function(){
+      alert('Could not read that image. Please try a different file.');
+    };
+    img.src = url;
+  }
+
+  function getTargetDims(){
+    const maxDim = parseInt(maxDimSelect.value, 10);
+    let w = originalWidth, h = originalHeight;
+    if(maxDim > 0 && (w > maxDim || h > maxDim)){
+      if(w >= h){
+        h = Math.round(h * (maxDim / w));
+        w = maxDim;
+      } else {
+        w = Math.round(w * (maxDim / h));
+        h = maxDim;
+      }
+    }
+    return {w, h};
+  }
+
+  function updateFormatUI(){
+    const isPng = formatSelect.value === 'image/png';
+    qualitySlider.disabled = isPng;
+    presetBtns.forEach(b => b.disabled = isPng);
+    pngNotice.style.display = isPng ? 'block' : 'none';
+  }
+
+  function compress(){
+    if(!sourceImageEl) return;
+
+    updateFormatUI();
+    const {w, h} = getTargetDims();
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    const format = formatSelect.value;
+
+    if(format === 'image/jpeg'){
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0,0,w,h);
+    }
+
+    ctx.drawImage(sourceImageEl, 0, 0, w, h);
+
+    const quality = parseInt(qualitySlider.value, 10) / 100;
+    downloadBtn.disabled = true;
+    downloadLabel.textContent = 'Compressing…';
+
+    canvas.toBlob(function(blob){
+      if(!blob){
+        downloadLabel.textContent = 'Could not compress';
+        return;
+      }
+      currentBlob = blob;
+      if(currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+      currentBlobUrl = URL.createObjectURL(blob);
+
+      compressedImg.src = currentBlobUrl;
+      compressedSizeEl.textContent = formatBytes(blob.size);
+      outDimsEl.textContent = w + ' × ' + h;
+
+      const reduction = originalBytes > 0 ? (1 - blob.size/originalBytes) * 100 : 0;
+      const grew = blob.size > originalBytes;
+      if(!grew){
+        reductionStat.textContent = '-' + reduction.toFixed(0) + '%';
+        reductionStat.style.color = 'var(--accent-2)';
+      } else {
+        reductionStat.textContent = '+' + Math.abs(reduction).toFixed(0) + '%';
+        reductionStat.style.color = 'var(--danger)';
+      }
+      growWarning.style.display = grew ? 'block' : 'none';
+      defaultHint.style.display = grew ? 'none' : 'block';
+
+      downloadBtn.disabled = false;
+      downloadLabel.textContent = 'Download compressed image (' + formatBytes(blob.size) + ')';
+    }, format, format === 'image/png' ? undefined : quality);
+  }
+
+  function debouncedCompress(){
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(compress, 120);
+  }
+
+  function updateQualityUI(){
+    const val = qualitySlider.value;
+    qualityValue.textContent = val + '%';
+    qualitySlider.style.setProperty('--pct', val + '%');
+    presetBtns.forEach(b => b.classList.toggle('active', b.dataset.quality === val));
+  }
+
+  // Drag & drop
+  ['dragenter','dragover'].forEach(evt => {
+    dropzone.addEventListener(evt, e => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+  });
+  ['dragleave','drop'].forEach(evt => {
+    dropzone.addEventListener(evt, e => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+    });
+  });
+  dropzone.addEventListener('drop', e => {
+    const file = e.dataTransfer.files[0];
+    if(file) loadFile(file);
+  });
+  dropzone.addEventListener('click', () => fileInput.click());
+
+  fileInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if(file) loadFile(file);
+  });
+
+  changeImageBtn.addEventListener('click', () => {
+    workspace.classList.remove('active');
+    dropzone.style.display = '';
+    fileInput.value = '';
+  });
+
+  qualitySlider.addEventListener('input', () => {
+    updateQualityUI();
+    debouncedCompress();
+  });
+
+  presetBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      qualitySlider.value = btn.dataset.quality;
+      updateQualityUI();
+      compress();
+    });
+  });
+
+  formatSelect.addEventListener('change', compress);
+  maxDimSelect.addEventListener('change', compress);
+
+  downloadBtn.addEventListener('click', () => {
+    if(!currentBlob) return;
+    const ext = formatSelect.value === 'image/png' ? 'png' : (formatSelect.value === 'image/webp' ? 'webp' : 'jpg');
+    const baseName = (originalFile.name.replace(/\.[^/.]+$/, '') || 'image');
+    const a = document.createElement('a');
+    a.href = currentBlobUrl;
+    a.download = baseName + '-compressed.' + ext;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+
+  // Also allow pasting an image from clipboard
+  window.addEventListener('paste', e => {
+    const items = e.clipboardData && e.clipboardData.items;
+    if(!items) return;
+    for(const item of items){
+      if(item.type.startsWith('image/')){
+        const file = item.getAsFile();
+        if(file) loadFile(file);
+        break;
+      }
+    }
+  });
+
+  updateQualityUI();
+  updateFormatUI();
+})();
+</script>
+
+</body>
+</html>
